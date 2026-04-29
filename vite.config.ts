@@ -17,7 +17,7 @@ export default defineConfig({
         type: 'module',
         navigateFallback: 'index.html',
       },
-      includeAssets: ['favicon.svg', 'apple-touch-icon.png', 'robots.txt'],
+      includeAssets: ['favicon.png', 'apple-touch-icon.png', 'robots.txt'],
       manifest: {
         id: '/?source=pwa',
         name: 'AutoOps AI',
