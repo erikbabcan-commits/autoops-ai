@@ -1,0 +1,137 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "actions": "Actions",
+    "status": "Status"
+  },
+  "auth": {
+    "title": "Sign in to AutoOps AI",
+    "description": "Supabase magic link auth with a mock fallback for local development.",
+    "email_label": "Email address",
+    "email_placeholder": "founder@eshop.sk",
+    "submit": "Continue with magic link",
+    "magic_link_sent": "Magic link sent. Check your email and open the link. Yes, email. That digital fax that refuses to die.",
+    "footer_note": "Production note: OAuth tokens and integration secrets belong on your backend, not in Vite env vars. Putting them in the client is credential composting."
+  },
+  "auth_hero": {
+    "badge": "Q2 2026 · Autonomous ops agent",
+    "title": "Small e-shop ops, but with fewer humans crying into spreadsheets.",
+    "description": "AutoOps AI handles inbox triage, invoices, shipping labels, order workflows and customer replies with guardrails where money or rage is involved.",
+    "stats": {
+      "saved_today": "saved today",
+      "orders_processed": "orders processed",
+      "avg_confidence": "avg confidence"
+    }
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "workflows": "Workflows",
+    "inbox": "Inbox",
+    "analytics": "Analytics",
+    "integrations": "Integrations",
+    "escalations": "Escalations",
+    "settings": "Settings",
+    "logout": "Sign out"
+  },
+  "dashboard": {
+    "orders_processed": "Orders processed",
+    "emails_answered": "Emails answered",
+    "invoices_sent": "Invoices sent",
+    "risk_events": "Risk events",
+    "quick_stats": "Quick Stats",
+    "activity": "Activity",
+    "agent_status": "Agent Status",
+    "integration_health": "Integration Health",
+    "hours_saved": "Hours saved this month",
+    "savings_meter": "Live savings meter",
+    "saved_today": "Saved today",
+    "hours": "hours",
+    "hero_desc": "Agent processed orders, replied to customers, sent invoices and didn't ask for a coffee break. HR department is crying quietly.",
+    "this_week": "This week",
+    "cost_saved": "Cost saved",
+    "autonomous_ops": "Fully Autonomous",
+    "eshop_ops": "SK/CZ e-shop ops",
+    "cockpit": "Operational cockpit"
+  },
+  "agent": {
+    "status_active": "Active",
+    "status_thinking": "Thinking",
+    "status_idle": "Idle",
+    "confidence": "Confidence",
+    "last_action": "Last action",
+    "commands": {
+      "placeholder": "Enter command for agent...",
+      "submit": "Execute"
+    }
+  },
+  "workflows": {
+    "builder": "Workflow Builder",
+    "palette": "Node Palette",
+    "trigger": "Trigger",
+    "action": "Action",
+    "approval": "Approval",
+    "guardrails": "Autonomy guardrails",
+    "guardrails_desc": "Refunds, accounting mutations and low-confidence replies require human approval. Because prison orange is not on-brand."
+  },
+  "connectors": {
+    "gmail": {
+      "label": "Gmail: New customer email",
+      "description": "Trigger when a customer email matches intent rules."
+    },
+    "shopify": {
+      "label": "Shopify: Paid order",
+      "description": "Start automation when a new paid order arrives."
+    },
+    "superfaktura": {
+      "label": "SuperFaktura: Create invoice",
+      "description": "Issue an invoice with VAT profile and order metadata."
+    },
+    "packeta": {
+      "label": "Packeta: Create shipment",
+      "description": "Book pickup point delivery and generate shipping label."
+    },
+    "gls": {
+      "label": "GLS: Courier pickup",
+      "description": "Create parcel and schedule courier collection."
+    },
+    "instagram": {
+      "label": "Instagram: New DM",
+      "description": "Classify incoming social message and map it to customer context."
+    },
+    "agent": {
+      "label": "AI Guardrail: Human approval",
+      "description": "Pause on risky operations like refunds or accounting changes."
+    }
+  },
+  "analytics": {
+    "title": "Operational intelligence",
+    "description": "KPI view for saved time, cost and agent performance. Numbers are mocked, unlike most startup pitch decks which merely pretend not to be.",
+    "tasks": "Handled tasks",
+    "tasks_one": "{{count}} task",
+    "tasks_other": "{{count}} tasks",
+    "accuracy": "Avg accuracy"
+  },
+  "integrations": {
+    "title": "Pre-built e-shop connectors",
+    "description": "Shopify, WooCommerce, Gmail, SuperFaktúra, iDoklad, Packeta, GLS and social channels. Mocked API calls today; production adapters tomorrow.",
+    "connected": "connected"
+  },
+  "escalations": {
+    "title": "Pending Escalations",
+    "no_requests": "No pending requests.",
+    "select_detail": "Select an escalation from the list to view details.",
+    "status_waiting": "Awaiting operator",
+    "reason": "Escalation Reason",
+    "reply_placeholder": "Write a reply to the customer...",
+    "resolve_button": "Resolve",
+    "resolve_note": "Sending a message will mark the escalation as resolved."
+  }
+}
+
+
+
+

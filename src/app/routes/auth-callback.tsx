@@ -1,20 +1,20 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router';
-import { authApi } from '@/api/auth';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
-import { useAuthStore } from '@/store/auth-store';
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router'
+import { authApi } from '@/api/auth'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Skeleton } from '@/components/ui/skeleton'
+import { useAuthStore } from '@/store/auth-store'
 
 export function AuthCallbackPage() {
-  const navigate = useNavigate();
-  const setSession = useAuthStore((state) => state.setSession);
+  const navigate = useNavigate()
+  const setSession = useAuthStore((state) => state.setSession)
 
   useEffect(() => {
     authApi.completeCallback().then((session) => {
-      setSession(session);
-      navigate('/', { replace: true });
-    });
-  }, [navigate, setSession]);
+      setSession(session)
+      navigate('/', { replace: true })
+    })
+  }, [navigate, setSession])
 
   return (
     <div className="grid min-h-screen place-items-center bg-cyber-bg p-6">
@@ -29,5 +29,5 @@ export function AuthCallbackPage() {
         </CardContent>
       </Card>
     </div>
-  );
+  )
 }

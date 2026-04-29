@@ -1,0 +1,20 @@
+{
+    "name": "growmedica/ai-agent",
+    "description": "GrowMedica Autonomous AI Agent Backend",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "require": {
+        "php": "^8.1",
+        "neuron-core/neuron-ai": "^1.0",
+        "vlucas/phpdotenv": "^5.5"
+    },
+    "config": {
+        "audit": {
+            "block-insecure": false
+        }
+    }
+}

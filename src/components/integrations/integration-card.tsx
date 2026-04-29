@@ -8,13 +8,13 @@ import {
   ShoppingBag,
   Store,
   Truck,
-  TriangleAlert
-} from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { formatNumber, formatRelativeTime } from '@/lib/utils';
-import type { Integration, IntegrationKey } from '@/types/domain';
+  TriangleAlert,
+} from 'lucide-react'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { formatNumber, formatRelativeTime } from '@/lib/utils'
+import type { Integration, IntegrationKey } from '@/types/domain'
 
 const iconMap: Record<IntegrationKey, typeof PlugZap> = {
   shopify: ShoppingBag,
@@ -26,18 +26,18 @@ const iconMap: Record<IntegrationKey, typeof PlugZap> = {
   gls: Truck,
   instagram: Instagram,
   facebook: PlugZap,
-  upgates: Store
-};
+  upgates: Store,
+}
 
 type Props = {
-  integration: Integration;
-  connecting: boolean;
-  onConnect: (id: IntegrationKey) => void;
-};
+  integration: Integration
+  connecting: boolean
+  onConnect: (id: IntegrationKey) => void
+}
 
 export function IntegrationCard({ integration, connecting, onConnect }: Props) {
-  const Icon = iconMap[integration.id];
-  const healthy = integration.health === 'healthy';
+  const Icon = iconMap[integration.id]
+  const healthy = integration.health === 'healthy'
 
   return (
     <Card className="group overflow-hidden transition hover:-translate-y-1 hover:border-cyber-cyan/30 hover:shadow-glow">
@@ -54,7 +54,11 @@ export function IntegrationCard({ integration, connecting, onConnect }: Props) {
           </div>
           <Badge variant={integration.connected ? (healthy ? 'success' : 'amber') : 'outline'}>
             {integration.connected ? (
-              healthy ? <CheckCircle2 className="mr-1 h-3 w-3" /> : <TriangleAlert className="mr-1 h-3 w-3" />
+              healthy ? (
+                <CheckCircle2 className="mr-1 h-3 w-3" />
+              ) : (
+                <TriangleAlert className="mr-1 h-3 w-3" />
+              )
             ) : null}
             {integration.connected ? integration.health : 'not connected'}
           </Badge>
@@ -74,18 +78,26 @@ export function IntegrationCard({ integration, connecting, onConnect }: Props) {
         </div>
         <div className="flex flex-wrap gap-2">
           {integration.scopes.slice(0, 3).map((scope) => (
-            <Badge key={scope} variant="outline">{scope}</Badge>
+            <Badge key={scope} variant="outline">
+              {scope}
+            </Badge>
           ))}
         </div>
         <div className="flex items-center justify-between gap-3 border-t border-white/10 pt-4">
           <p className="text-xs text-muted-foreground">
-            Last sync: {integration.connected ? formatRelativeTime(integration.lastSyncAt) : 'never'}
+            Last sync:{' '}
+            {integration.connected ? formatRelativeTime(integration.lastSyncAt) : 'never'}
           </p>
-          <Button size="sm" variant={integration.connected ? 'outline' : 'neon'} disabled={integration.connected || connecting} onClick={() => onConnect(integration.id)}>
+          <Button
+            size="sm"
+            variant={integration.connected ? 'outline' : 'neon'}
+            disabled={integration.connected || connecting}
+            onClick={() => onConnect(integration.id)}
+          >
             {integration.connected ? 'Connected' : connecting ? 'Connecting…' : 'Connect'}
           </Button>
         </div>
       </CardContent>
     </Card>
-  );
+  )
 }

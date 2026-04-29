@@ -1,0 +1,138 @@
+{
+  "common": {
+    "loading": "Načítavam...",
+    "error": "Chyba",
+    "save": "Uložiť",
+    "cancel": "Zrušiť",
+    "delete": "Vymazať",
+    "actions": "Akcie",
+    "status": "Stav"
+  },
+  "auth": {
+    "title": "Prihláste sa do AutoOps AI",
+    "description": "Supabase magic link prihlásenie s lokálnym mock režimom pre vývoj.",
+    "email_label": "E-mailová adresa",
+    "email_placeholder": "zakladatel@eshop.sk",
+    "submit": "Pokračovať s magic linkom",
+    "magic_link_sent": "Magic link odoslaný. Skontroluj si email a otvor odkaz. Áno, email. Ten digitálny fax, čo stále nechce zomrieť.",
+    "footer_note": "Poznámka: OAuth tokeny a kľúče patria na backend, nie do Vite env premenných. Dať ich do klienta je koledovanie si o únik dát."
+  },
+  "auth_hero": {
+    "badge": "Q2 2026 · Autonómny AI agent",
+    "title": "E-shop operácie, pri ktorých ľudia nemusia plakať nad tabuľkami.",
+    "description": "AutoOps AI riadi triedenie pošty, faktúry, štítky a odpovede zákazníkom s bezpečnostnými mantinelmi všade tam, kde ide o peniaze alebo emócie.",
+    "stats": {
+      "saved_today": "dnes ušetrené",
+      "orders_processed": "spracovaných objednávok",
+      "avg_confidence": "priemerná spoľahlivosť"
+    }
+  },
+  "nav": {
+    "dashboard": "Prehľad",
+    "workflows": "Procesy",
+    "inbox": "Správy",
+    "analytics": "Analytika",
+    "integrations": "Integrácie",
+    "escalations": "Eskalácie",
+    "settings": "Nastavenia",
+    "logout": "Odhlásiť sa"
+  },
+  "dashboard": {
+    "orders_processed": "Objednávky",
+    "emails_answered": "E-maily",
+    "invoices_sent": "Faktúry",
+    "risk_events": "Riziká",
+    "quick_stats": "Rýchly prehľad",
+    "activity": "Aktivita",
+    "agent_status": "Stav agenta",
+    "integration_health": "Stav integrácií",
+    "hours_saved": "Ušetrené hodiny tento mesiac",
+    "savings_meter": "Merač úspor",
+    "saved_today": "Dnes ušetrené",
+    "hours": "hodín",
+    "hero_desc": "Agent spracoval objednávky, odpovedal zákazníkom a poslal faktúry bez prestávky na kávu. HR oddelenie potichu plače.",
+    "this_week": "Tento týždeň",
+    "cost_saved": "Ušetrené náklady",
+    "autonomous_ops": "Plne autonómne",
+    "eshop_ops": "SK/CZ e-shop operácie",
+    "cockpit": "Operačný kokpit"
+  },
+  "agent": {
+    "status_active": "Aktívny",
+    "status_thinking": "Premýšľa",
+    "status_idle": "Čaká",
+    "confidence": "Spoľahlivosť",
+    "last_action": "Posledná akcia",
+    "commands": {
+      "placeholder": "Zadajte príkaz agentovi...",
+      "submit": "Vykonať"
+    }
+  },
+  "workflows": {
+    "builder": "Editor procesov",
+    "palette": "Paleta uzlov",
+    "trigger": "Spúšťač",
+    "action": "Akcia",
+    "approval": "Schválenie",
+    "guardrails": "Bezpečnostné mantinely",
+    "guardrails_desc": "Vrátenie peňazí a účtovné zmeny vyžadujú ľudské schválenie. Pretože väzenská oranžová nie je v súlade s naším brandom."
+  },
+  "connectors": {
+    "gmail": {
+      "label": "Gmail: Nový e-mail",
+      "description": "Spustiť pri doručení e-mailu od zákazníka."
+    },
+    "shopify": {
+      "label": "Shopify: Zaplatená objednávka",
+      "description": "Spustiť pri novej zaplatenej objednávke."
+    },
+    "superfaktura": {
+      "label": "SuperFaktura: Vytvoriť faktúru",
+      "description": "Vystaviť faktúru s DPH profilom a metadátami."
+    },
+    "packeta": {
+      "label": "Packeta: Vytvoriť zásielku",
+      "description": "Zarezervovať odberné miesto a vygenerovať štítok."
+    },
+    "gls": {
+      "label": "GLS: Kuriérsky zvoz",
+      "description": "Vytvoriť balík a naplánovať vyzdvihnutie kuriérom."
+    },
+    "instagram": {
+      "label": "Instagram: Nová správa",
+      "description": "Klasifikovať DM a priradiť ju k zákazníkovi."
+    },
+    "agent": {
+      "label": "AI Guardrail: Ľudské schválenie",
+      "description": "Pozastaviť pri rizikových operáciách (refundácie, účtovníctvo)."
+    }
+  },
+  "analytics": {
+    "title": "Operačná inteligencia",
+    "description": "KPI prehľad pre ušetrený čas, náklady a výkon agenta. Čísla sú simulované, na rozdiel od väčšiny startupových pitch deckov, ktoré sa na to len hrajú.",
+    "tasks": "Spracované úlohy",
+    "tasks_one": "{{count}} úloha",
+    "tasks_few": "{{count}} úlohy",
+    "tasks_other": "{{count}} úloh",
+    "accuracy": "Priem. presnosť"
+  },
+  "integrations": {
+    "title": "Konektory pre e-shopy",
+    "description": "Shopify, WooCommerce, Gmail, SuperFaktúra, iDoklad, Packeta, GLS a sociálne siete. Dnes simulované volania, zajtra ostré produkčné adaptéry.",
+    "connected": "pripojených"
+  },
+  "escalations": {
+    "title": "Čakajúce eskalácie",
+    "no_requests": "Žiadne čakajúce požiadavky.",
+    "select_detail": "Vyberte eskaláciu zo zoznamu pre zobrazenie detailu.",
+    "status_waiting": "Čaká na operátora",
+    "reason": "Dôvod eskalácie",
+    "reply_placeholder": "Napíšte odpoveď zákazníkovi...",
+    "resolve_button": "Vyriešiť",
+    "resolve_note": "Odoslaním správy sa eskalácia označí ako vyriešená."
+  }
+}
+
+
+
+

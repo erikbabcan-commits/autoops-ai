@@ -1,9 +1,9 @@
-import { WifiOff } from 'lucide-react';
-import { AnimatePresence, motion } from 'framer-motion';
-import { useOnlineStatus } from '@/hooks/use-online-status';
+import { WifiOff } from 'lucide-react'
+import { AnimatePresence, motion } from 'framer-motion'
+import { useOnlineStatus } from '@/hooks/use-online-status'
 
 export function OfflineBanner() {
-  const online = useOnlineStatus();
+  const online = useOnlineStatus()
 
   return (
     <AnimatePresence>
@@ -19,5 +19,5 @@ export function OfflineBanner() {
         </motion.div>
       )}
     </AnimatePresence>
-  );
+  )
 }

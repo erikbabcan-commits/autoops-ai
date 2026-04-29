@@ -7,3 +7,21 @@ dist
 *.log
 coverage
 .vite
+
+# PHP
+vendor/
+composer.lock
+
+# Database
+database.sqlite
+
+# Testing
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
+# Misc
+.vscode/
+.idea/
+*.tmp

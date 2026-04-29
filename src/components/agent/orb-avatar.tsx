@@ -1,5 +1,5 @@
-import { Bot } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { Bot } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 export function OrbAvatar({ className }: { className?: string }) {
   return (
@@ -11,5 +11,5 @@ export function OrbAvatar({ className }: { className?: string }) {
         <Bot className="h-6 w-6" />
       </div>
     </div>
-  );
+  )
 }

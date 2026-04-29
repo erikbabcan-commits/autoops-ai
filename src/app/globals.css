@@ -37,7 +37,9 @@
 
   body {
     @apply min-h-screen overflow-x-hidden bg-cyber-bg bg-cyber-radial font-sans;
-    font-feature-settings: 'rlig' 1, 'calt' 1;
+    font-feature-settings:
+      'rlig' 1,
+      'calt' 1;
   }
 
   ::selection {
@@ -61,8 +63,15 @@
     inset: -1px;
     border-radius: inherit;
     padding: 1px;
-    background: linear-gradient(135deg, rgba(0,245,255,.72), rgba(168,85,247,.55), transparent 70%);
-    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    background: linear-gradient(
+      135deg,
+      rgba(0, 245, 255, 0.72),
+      rgba(168, 85, 247, 0.55),
+      transparent 70%
+    );
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
     mask-composite: exclude;
   }
 

@@ -1,0 +1,29 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    environment:
+      - NODE_ENV=production
+      - VITE_SENTRY_DSN=${VITE_SENTRY_DSN}
+    networks:
+      - autoops_net
+    restart: always
+
+  redis:
+    image: redis:7-alpine
+    command: redis-server --save 60 1 --loglevel warning
+    volumes:
+      - redis_data:/data
+    networks:
+      - autoops_net
+    restart: always
+
+networks:
+  autoops_net:
+    driver: bridge
+
+volumes:
+  redis_data:

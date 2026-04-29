@@ -1,9 +1,9 @@
-import path from 'node:path';
-import react from '@vitejs/plugin-react';
-import { defineConfig } from 'vite';
-import { VitePWA } from 'vite-plugin-pwa';
+import path from 'node:path'
+import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite'
+import { VitePWA } from 'vite-plugin-pwa'
 
-const sevenDays = 60 * 60 * 24 * 7;
+const sevenDays = 60 * 60 * 24 * 7
 
 export default defineConfig({
   plugins: [
@@ -13,9 +13,9 @@ export default defineConfig({
       strategies: 'generateSW',
       injectRegister: false,
       devOptions: {
-        enabled: true,
+        enabled: false,
         type: 'module',
-        navigateFallback: 'index.html'
+        navigateFallback: 'index.html',
       },
       includeAssets: ['favicon.svg', 'apple-touch-icon.png', 'robots.txt'],
       manifest: {
@@ -34,8 +34,13 @@ export default defineConfig({
         icons: [
           { src: '/pwa-192x192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
           { src: '/pwa-512x512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
-          { src: '/maskable-512x512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' }
-        ]
+          {
+            src: '/maskable-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'maskable',
+          },
+        ],
       },
       workbox: {
         cleanupOutdatedCaches: true,
@@ -50,26 +55,28 @@ export default defineConfig({
             options: {
               cacheName: 'autoops-html',
               expiration: { maxAgeSeconds: sevenDays, maxEntries: 20 },
-              networkTimeoutSeconds: 3
-            }
+              networkTimeoutSeconds: 3,
+            },
           },
           {
-            urlPattern: ({ url }) => url.pathname.startsWith('/api/') || url.pathname.includes('/mock/'),
+            urlPattern: ({ url }) =>
+              url.pathname.startsWith('/api/') || url.pathname.includes('/mock/'),
             handler: 'NetworkFirst',
             options: {
               cacheName: 'autoops-api-7d',
               expiration: { maxAgeSeconds: sevenDays, maxEntries: 250 },
               networkTimeoutSeconds: 3,
-              cacheableResponse: { statuses: [0, 200] }
-            }
+              cacheableResponse: { statuses: [0, 200] },
+            },
           },
           {
-            urlPattern: ({ request }) => ['style', 'script', 'worker'].includes(request.destination),
+            urlPattern: ({ request }) =>
+              ['style', 'script', 'worker'].includes(request.destination),
             handler: 'StaleWhileRevalidate',
             options: {
               cacheName: 'autoops-static',
-              expiration: { maxAgeSeconds: sevenDays, maxEntries: 100 }
-            }
+              expiration: { maxAgeSeconds: sevenDays, maxEntries: 100 },
+            },
           },
           {
             urlPattern: ({ request }) => request.destination === 'image',
@@ -77,24 +84,31 @@ export default defineConfig({
             options: {
               cacheName: 'autoops-images',
               expiration: { maxAgeSeconds: sevenDays, maxEntries: 120 },
-              cacheableResponse: { statuses: [0, 200] }
-            }
-          }
-        ]
-      }
-    })
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
+        ],
+      },
+    }),
   ],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src')
-    }
+      '@': path.resolve(__dirname, './src'),
+    },
   },
   server: {
-    port: 5173,
-    strictPort: true
+    port: 5001,
+    strictPort: true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\//, '?action='),
+      },
+    },
   },
   preview: {
-    port: 4173,
-    strictPort: true
-  }
-});
+    port: 4180,
+    strictPort: true,
+  },
+})

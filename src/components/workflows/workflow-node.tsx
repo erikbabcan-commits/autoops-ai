@@ -1,8 +1,18 @@
-import type { PointerEvent } from 'react';
-import { Bot, FileText, Instagram, Mail, PackageCheck, ShoppingBag, Truck, Workflow } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
-import type { WorkflowConnector, WorkflowNode } from '@/types/domain';
+import type { PointerEvent } from 'react'
+import {
+  Bot,
+  FileText,
+  Instagram,
+  Mail,
+  PackageCheck,
+  ShoppingBag,
+  Truck,
+  Workflow,
+} from 'lucide-react'
+import { useTranslation } from 'react-i18next'
+import { Badge } from '@/components/ui/badge'
+import { cn } from '@/lib/utils'
+import type { WorkflowConnector, WorkflowNode } from '@/types/domain'
 
 const icons: Record<WorkflowConnector, typeof Mail> = {
   gmail: Mail,
@@ -13,25 +23,34 @@ const icons: Record<WorkflowConnector, typeof Mail> = {
   packeta: PackageCheck,
   gls: Truck,
   instagram: Instagram,
-  agent: Bot
-};
+  agent: Bot,
+}
 
 const statusVariant = {
   idle: 'outline',
   running: 'cyan',
   success: 'success',
-  warning: 'amber'
-} as const;
+  warning: 'amber',
+} as const
 
-export function WorkflowNodeCard({ node, selected, onPointerDown }: { node: WorkflowNode; selected?: boolean; onPointerDown?: (event: PointerEvent<HTMLDivElement>) => void }) {
-  const Icon = icons[node.connector] ?? Workflow;
+export function WorkflowNodeCard({
+  node,
+  selected,
+  onPointerDown,
+}: {
+  node: WorkflowNode
+  selected?: boolean
+  onPointerDown?: (event: PointerEvent<HTMLDivElement>) => void
+}) {
+  const { t } = useTranslation()
+  const Icon = icons[node.connector] ?? Workflow
 
   return (
     <div
       onPointerDown={onPointerDown}
       className={cn(
         'absolute w-64 cursor-grab rounded-3xl border border-white/10 bg-cyber-panel/90 p-4 shadow-neumorph backdrop-blur-xl transition active:cursor-grabbing',
-        selected && 'border-cyber-cyan/60 shadow-glow'
+        selected && 'border-cyber-cyan/60 shadow-glow',
       )}
       style={{ left: node.x, top: node.y }}
     >
@@ -41,13 +60,18 @@ export function WorkflowNodeCard({ node, selected, onPointerDown }: { node: Work
         </div>
         <div className="min-w-0">
           <div className="flex flex-wrap items-center gap-2">
-            <Badge variant={statusVariant[node.status]}>{node.status}</Badge>
-            <Badge variant="outline">{node.type}</Badge>
+            <Badge variant={statusVariant[node.status]}>{t(`common.status`)}</Badge>
+            <Badge variant="outline">{t(`workflows.${node.type}`)}</Badge>
           </div>
-          <h3 className="mt-2 line-clamp-2 font-semibold text-white">{node.label}</h3>
+          <h3 className="mt-2 line-clamp-2 font-semibold text-white">
+            {t(`connectors.${node.connector}.label`, { defaultValue: node.label })}
+          </h3>
         </div>
       </div>
-      <p className="mt-3 line-clamp-3 text-sm leading-6 text-muted-foreground">{node.description}</p>
+      <p className="mt-3 line-clamp-3 text-sm leading-6 text-muted-foreground">
+        {t(`connectors.${node.connector}.description`, { defaultValue: node.description })}
+      </p>
     </div>
-  );
+  )
 }
+

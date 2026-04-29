@@ -9,22 +9,22 @@ import {
   ResponsiveContainer,
   Tooltip,
   XAxis,
-  YAxis
-} from 'recharts';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { formatCurrency } from '@/lib/utils';
-import type { AnalyticsPoint } from '@/types/domain';
+  YAxis,
+} from 'recharts'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { formatCurrency } from '@/lib/utils'
+import type { AnalyticsPoint } from '@/types/domain'
 
 const axisProps = {
   stroke: 'rgba(255,255,255,.35)',
   fontSize: 12,
   tickLine: false,
-  axisLine: false
-};
+  axisLine: false,
+}
 
 export function PerformanceCharts({ points }: { points: AnalyticsPoint[] }) {
-  const totalCost = points.reduce((sum, point) => sum + point.costSaved, 0);
-  const totalHours = points.reduce((sum, point) => sum + point.savedHours, 0);
+  const totalCost = points.reduce((sum, point) => sum + point.costSaved, 0)
+  const totalHours = points.reduce((sum, point) => sum + point.savedHours, 0)
 
   return (
     <div className="grid gap-6 xl:grid-cols-2">
@@ -50,8 +50,21 @@ export function PerformanceCharts({ points }: { points: AnalyticsPoint[] }) {
               <CartesianGrid stroke="rgba(255,255,255,.08)" vertical={false} />
               <XAxis dataKey="date" {...axisProps} />
               <YAxis {...axisProps} />
-              <Tooltip contentStyle={{ background: '#0b0d19', border: '1px solid rgba(255,255,255,.1)', borderRadius: 16 }} labelStyle={{ color: '#fff' }} />
-              <Area type="monotone" dataKey="savedHours" stroke="#00f5ff" strokeWidth={2} fill="url(#savedHours)" />
+              <Tooltip
+                contentStyle={{
+                  background: '#0b0d19',
+                  border: '1px solid rgba(255,255,255,.1)',
+                  borderRadius: 16,
+                }}
+                labelStyle={{ color: '#fff' }}
+              />
+              <Area
+                type="monotone"
+                dataKey="savedHours"
+                stroke="#00f5ff"
+                strokeWidth={2}
+                fill="url(#savedHours)"
+              />
             </AreaChart>
           </ResponsiveContainer>
         </CardContent>
@@ -68,7 +81,15 @@ export function PerformanceCharts({ points }: { points: AnalyticsPoint[] }) {
               <CartesianGrid stroke="rgba(255,255,255,.08)" vertical={false} />
               <XAxis dataKey="date" {...axisProps} />
               <YAxis {...axisProps} />
-              <Tooltip formatter={(value) => formatCurrency(Number(value))} contentStyle={{ background: '#0b0d19', border: '1px solid rgba(255,255,255,.1)', borderRadius: 16 }} labelStyle={{ color: '#fff' }} />
+              <Tooltip
+                formatter={(value) => formatCurrency(Number(value))}
+                contentStyle={{
+                  background: '#0b0d19',
+                  border: '1px solid rgba(255,255,255,.1)',
+                  borderRadius: 16,
+                }}
+                labelStyle={{ color: '#fff' }}
+              />
               <Bar dataKey="costSaved" fill="#a855f7" radius={[10, 10, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
@@ -86,12 +107,26 @@ export function PerformanceCharts({ points }: { points: AnalyticsPoint[] }) {
               <CartesianGrid stroke="rgba(255,255,255,.08)" vertical={false} />
               <XAxis dataKey="date" {...axisProps} />
               <YAxis domain={[80, 100]} {...axisProps} />
-              <Tooltip formatter={(value) => `${Number(value).toFixed(1)}%`} contentStyle={{ background: '#0b0d19', border: '1px solid rgba(255,255,255,.1)', borderRadius: 16 }} labelStyle={{ color: '#fff' }} />
-              <Line type="monotone" dataKey="accuracy" stroke="#00f5ff" strokeWidth={2} dot={false} />
+              <Tooltip
+                formatter={(value) => `${Number(value).toFixed(1)}%`}
+                contentStyle={{
+                  background: '#0b0d19',
+                  border: '1px solid rgba(255,255,255,.1)',
+                  borderRadius: 16,
+                }}
+                labelStyle={{ color: '#fff' }}
+              />
+              <Line
+                type="monotone"
+                dataKey="accuracy"
+                stroke="#00f5ff"
+                strokeWidth={2}
+                dot={false}
+              />
             </LineChart>
           </ResponsiveContainer>
         </CardContent>
       </Card>
     </div>
-  );
+  )
 }

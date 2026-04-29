@@ -1,14 +1,14 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { integrationsApi } from '@/api/integrations';
-import { IntegrationCard } from '@/components/integrations/integration-card';
-import type { Integration } from '@/types/domain';
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { integrationsApi } from '@/api/integrations'
+import { IntegrationCard } from '@/components/integrations/integration-card'
+import type { Integration } from '@/types/domain'
 
 export function IntegrationsGrid({ integrations }: { integrations: Integration[] }) {
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
   const connect = useMutation({
     mutationFn: integrationsApi.connect,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['integrations'] })
-  });
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['integrations'] }),
+  })
 
   return (
     <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
@@ -21,5 +21,5 @@ export function IntegrationsGrid({ integrations }: { integrations: Integration[]
         />
       ))}
     </div>
-  );
+  )
 }

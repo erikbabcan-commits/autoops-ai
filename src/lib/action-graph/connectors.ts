@@ -1,13 +1,13 @@
-import { Bot, FileText, Instagram, Mail, PackageCheck, ShoppingBag, Truck } from 'lucide-react';
-import type { WorkflowConnector, WorkflowNodeType } from '@/types/domain';
+import { Bot, FileText, Instagram, Mail, PackageCheck, ShoppingBag, Truck } from 'lucide-react'
+import type { WorkflowConnector, WorkflowNodeType } from '@/types/domain'
 
 export interface ConnectorTemplate {
-  connector: WorkflowConnector;
-  type: WorkflowNodeType;
-  label: string;
-  description: string;
-  accent: 'cyan' | 'purple' | 'green' | 'amber';
-  icon: typeof Mail;
+  connector: WorkflowConnector
+  type: WorkflowNodeType
+  label: string
+  description: string
+  accent: 'cyan' | 'purple' | 'green' | 'amber'
+  icon: typeof Mail
 }
 
 export const connectorTemplates: ConnectorTemplate[] = [
@@ -17,7 +17,7 @@ export const connectorTemplates: ConnectorTemplate[] = [
     label: 'Gmail: New customer email',
     description: 'Trigger when a customer email matches intent rules.',
     accent: 'cyan',
-    icon: Mail
+    icon: Mail,
   },
   {
     connector: 'shopify',
@@ -25,7 +25,7 @@ export const connectorTemplates: ConnectorTemplate[] = [
     label: 'Shopify: Paid order',
     description: 'Start automation when a new paid order arrives.',
     accent: 'green',
-    icon: ShoppingBag
+    icon: ShoppingBag,
   },
   {
     connector: 'superfaktura',
@@ -33,7 +33,7 @@ export const connectorTemplates: ConnectorTemplate[] = [
     label: 'SuperFaktura: Create invoice',
     description: 'Issue an invoice with VAT profile and order metadata.',
     accent: 'purple',
-    icon: FileText
+    icon: FileText,
   },
   {
     connector: 'packeta',
@@ -41,7 +41,7 @@ export const connectorTemplates: ConnectorTemplate[] = [
     label: 'Packeta: Create shipment',
     description: 'Book pickup point delivery and generate shipping label.',
     accent: 'amber',
-    icon: PackageCheck
+    icon: PackageCheck,
   },
   {
     connector: 'gls',
@@ -49,7 +49,7 @@ export const connectorTemplates: ConnectorTemplate[] = [
     label: 'GLS: Courier pickup',
     description: 'Create parcel and schedule courier collection.',
     accent: 'cyan',
-    icon: Truck
+    icon: Truck,
   },
   {
     connector: 'instagram',
@@ -57,7 +57,7 @@ export const connectorTemplates: ConnectorTemplate[] = [
     label: 'Instagram: New DM',
     description: 'Classify incoming social message and map it to customer context.',
     accent: 'purple',
-    icon: Instagram
+    icon: Instagram,
   },
   {
     connector: 'agent',
@@ -65,6 +65,6 @@ export const connectorTemplates: ConnectorTemplate[] = [
     label: 'AI Guardrail: Human approval',
     description: 'Pause on risky operations like refunds or accounting changes.',
     accent: 'amber',
-    icon: Bot
-  }
-];
+    icon: Bot,
+  },
+]

@@ -1,48 +1,53 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Bot, Instagram, Mail, MessageSquare, PackageCheck, ShoppingBag } from 'lucide-react';
-import { inboxApi } from '@/api/inbox';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { formatCurrency, formatRelativeTime } from '@/lib/utils';
-import type { InboxSource, UnifiedInboxItem } from '@/types/domain';
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { Bot, Instagram, Mail, MessageSquare, PackageCheck, ShoppingBag } from 'lucide-react'
+import { inboxApi } from '@/api/inbox'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { formatCurrency, formatRelativeTime } from '@/lib/utils'
+import type { InboxSource, UnifiedInboxItem } from '@/types/domain'
 
 const sourceIcons: Record<InboxSource, typeof Mail> = {
   gmail: Mail,
   shopify: ShoppingBag,
   woocommerce: PackageCheck,
   instagram: Instagram,
-  support: MessageSquare
-};
+  support: MessageSquare,
+}
 
 const priorityVariant = {
   low: 'outline',
   medium: 'cyan',
   high: 'amber',
-  critical: 'destructive'
-} as const;
+  critical: 'destructive',
+} as const
 
 export function InboxList({ items }: { items: UnifiedInboxItem[] }) {
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
   const autoReply = useMutation({
     mutationFn: inboxApi.autoReply,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['inbox'] })
-  });
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['inbox'] }),
+  })
 
   return (
     <Card>
       <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <CardTitle>Unified inbox</CardTitle>
-          <CardDescription>Gmail, Shopify orders, Instagram DMs and support tickets in one triage lane.</CardDescription>
+          <CardDescription>
+            Gmail, Shopify orders, Instagram DMs and support tickets in one triage lane.
+          </CardDescription>
         </div>
         <Badge variant="purple">AI auto-categorization</Badge>
       </CardHeader>
       <CardContent className="space-y-4">
         {items.map((item) => {
-          const Icon = sourceIcons[item.source];
+          const Icon = sourceIcons[item.source]
           return (
-            <article key={item.id} className="rounded-3xl border border-white/10 bg-white/[0.035] p-4 transition hover:border-cyber-cyan/30 hover:bg-white/[0.06]">
+            <article
+              key={item.id}
+              className="rounded-3xl border border-white/10 bg-white/[0.035] p-4 transition hover:border-cyber-cyan/30 hover:bg-white/[0.06]"
+            >
               <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                 <div className="flex min-w-0 gap-3">
                   <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.06] text-cyber-cyan">
@@ -72,18 +77,32 @@ export function InboxList({ items }: { items: UnifiedInboxItem[] }) {
                   </div>
                 </div>
                 <div className="flex shrink-0 flex-row gap-2 lg:flex-col">
-                  <Badge variant={item.status === 'needs_human' ? 'amber' : item.status === 'closed' ? 'success' : 'cyan'} className="justify-center">
+                  <Badge
+                    variant={
+                      item.status === 'needs_human'
+                        ? 'amber'
+                        : item.status === 'closed'
+                          ? 'success'
+                          : 'cyan'
+                    }
+                    className="justify-center"
+                  >
                     {item.status.replace('_', ' ')}
                   </Badge>
-                  <Button size="sm" variant="outline" disabled={autoReply.isPending || item.status === 'closed'} onClick={() => autoReply.mutate(item.id)}>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    disabled={autoReply.isPending || item.status === 'closed'}
+                    onClick={() => autoReply.mutate(item.id)}
+                  >
                     Approve reply
                   </Button>
                 </div>
               </div>
             </article>
-          );
+          )
         })}
       </CardContent>
     </Card>
-  );
+  )
 }

@@ -1,22 +1,22 @@
-import { AlertTriangle, CheckCircle2, Lock } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
-import { formatRelativeTime } from '@/lib/utils';
-import type { AgentActionResult } from '@/types/domain';
+import { AlertTriangle, CheckCircle2, Lock } from 'lucide-react'
+import { Badge } from '@/components/ui/badge'
+import { formatRelativeTime } from '@/lib/utils'
+import type { AgentActionResult } from '@/types/domain'
 
 const iconMap = {
   executed: CheckCircle2,
   requires_approval: AlertTriangle,
-  blocked: Lock
-};
+  blocked: Lock,
+}
 
 const variantMap = {
   executed: 'success',
   requires_approval: 'amber',
-  blocked: 'destructive'
-} as const;
+  blocked: 'destructive',
+} as const
 
 export function ActionResultCard({ result }: { result: AgentActionResult }) {
-  const Icon = iconMap[result.status];
+  const Icon = iconMap[result.status]
 
   return (
     <article className="rounded-3xl border border-white/10 bg-white/[0.045] p-4">
@@ -38,5 +38,5 @@ export function ActionResultCard({ result }: { result: AgentActionResult }) {
         </div>
       </div>
     </article>
-  );
+  )
 }
