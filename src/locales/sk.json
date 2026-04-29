@@ -12,7 +12,7 @@
     "title": "Prihláste sa do AutoOps AI",
     "description": "Supabase magic link prihlásenie s lokálnym mock režimom pre vývoj.",
     "email_label": "E-mailová adresa",
-    "email_placeholder": "zakladatel@eshop.sk",
+    "email_placeholder": "autoops@larsenevans.com",
     "submit": "Pokračovať s magic linkom",
     "magic_link_sent": "Magic link odoslaný. Skontroluj si email a otvor odkaz. Áno, email. Ten digitálny fax, čo stále nechce zomrieť.",
     "footer_note": "Poznámka: OAuth tokeny a kľúče patria na backend, nie do Vite env premenných. Dať ich do klienta je koledovanie si o únik dát."

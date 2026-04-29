@@ -12,7 +12,7 @@
     "title": "Sign in to AutoOps AI",
     "description": "Supabase magic link auth with a mock fallback for local development.",
     "email_label": "Email address",
-    "email_placeholder": "founder@eshop.sk",
+    "email_placeholder": "autoops@larsenevans.com",
     "submit": "Continue with magic link",
     "magic_link_sent": "Magic link sent. Check your email and open the link. Yes, email. That digital fax that refuses to die.",
     "footer_note": "Production note: OAuth tokens and integration secrets belong on your backend, not in Vite env vars. Putting them in the client is credential composting."

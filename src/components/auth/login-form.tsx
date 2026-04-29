@@ -18,7 +18,7 @@ export function LoginForm() {
   const [message, setMessage] = useState<string | null>(null)
   const form = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
-    defaultValues: { email: 'operator@autoops.local' },
+    defaultValues: { email: 'autoops@larsenevans.com' },
   })
 
   async function onSubmit(values: LoginInput) {

@@ -4,7 +4,7 @@ test.describe('AutoOps AI - Elite Dashboard E2E', () => {
   test.beforeEach(async ({ page }) => {
     // 1. Prihlásenie (Mock Auth)
     await page.goto('http://localhost:5001/login')
-    await page.fill('input[type="email"]', 'operator@autoops.local')
+    await page.fill('input[type="email"]', 'autoops@larsenevans.com')
     await page.click('button[type="submit"]')
     
     // Počkáme na úspešné prihlásenie a redirect
