@@ -24,4 +24,7 @@ playwright/.cache/
 # Misc
 .vscode/
 .idea/
+.agents/
+.claude/
+.continue/
 *.tmp

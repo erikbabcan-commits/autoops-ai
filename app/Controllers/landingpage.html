@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="sk" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoOps AI - Budúcnosť e-commerce automatizácie</title>
+    
+    <!-- SEO & Social Sharing -->
+    <meta name="description" content="AutoOps AI je autonómny agent, ktorý preberá operatívu vášho e-shopu. SQL čet, automatizácia logistiky a fakturácie.">
+    <meta property="og:title" content="AutoOps AI - Budúcnosť e-commerce">
+    <meta property="og:description" content="Ušetrite hodiny denne vďaka umelej inteligencii, ktorá rozumie vášmu skladu a zákazníkom.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://autoops.larsenevans.com/og-image.png">
+    
+    <!-- PWA Support -->
+    <link rel="manifest" href="/manifest.webmanifest">
+    <meta name="theme-color" content="#05050A">
+
+    <!-- Prémiový font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        neon: {
+                            cyan: '#00f2fe',
+                            blue: '#4facfe',
+                            purple: '#b026ff'
+                        },
+                        dark: {
+                            900: '#05050A',
+                            800: '#0B0B14',
+                            700: '#151522',
+                            card: 'rgba(21, 21, 34, 0.6)'
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'spin-slow': 'spin 8s linear infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'shimmer': 'shimmer 2s linear infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        shimmer: {
+                            '0%': { backgroundPosition: '-200% 0' },
+                            '100%': { backgroundPosition: '200% 0' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Supabase JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <style>
+        body {
+            background-color: #05050A;
+            color: #ffffff;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(0, 242, 254, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 85% 30%, rgba(176, 38, 255, 0.08) 0%, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        /* Glassmorphism karty */
+        .glass-card {
+            background: rgba(20, 20, 30, 0.4);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+
+        /* Animácie textu a elementov */
+        .neon-text {
+            background: linear-gradient(to right, #00f2fe, #4facfe);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .neon-border {
+            position: relative;
+        }
+        .neon-border::before {
+            content: "";
+            position: absolute;
+            inset: -1px;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(to bottom right, rgba(0, 242, 254, 0.5), rgba(176, 38, 255, 0.5), transparent);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        /* Kruhový progress bar */
+        .circular-chart {
+            display: block;
+            margin: 0 auto;
+            max-width: 80%;
+            max-height: 250px;
+        }
+        .circle-bg {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.05);
+            stroke-width: 2.5;
+        }
+        .circle {
+            fill: none;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            animation: progress 2s ease-out forwards;
+            stroke: url(#gradient);
+            filter: drop-shadow(0 0 8px rgba(0, 242, 254, 0.6));
+        }
+        @keyframes progress {
+            0% { stroke-dasharray: 0 100; }
+        }
+
+        /* Chat animácie */
+        .message-pop { animation: messagePop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; opacity: 0; transform: scale(0.95) translateY(10px); }
+        @keyframes messagePop { to { opacity: 1; transform: scale(1) translateY(0); } }
+        
+        .typing-dot { animation: typing 1.4s infinite ease-in-out both; }
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes typing { 0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; } 40% { transform: scale(1); opacity: 1; } }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(2, minmax(180px, auto));
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 1024px) {
+            .bento-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .bento-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .shimmer-text {
+            background: linear-gradient(90deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0.1) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Reveal animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Glowing Blobs */
+        .blob {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0, 242, 254, 0.05) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col overflow-x-hidden">
+    <div class="blob top-0 -left-64"></div>
+    <div class="blob top-[1000px] -right-64" style="background: radial-gradient(circle, rgba(176, 38, 255, 0.05) 0%, transparent 70%);"></div>
+    <div class="blob top-[2500px] -left-64"></div>
+
+    <!-- Top Navbar -->
+    <nav class="border-b border-white/5 bg-dark-900/50 backdrop-blur-xl sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-neon-cyan to-neon-purple p-[1px]">
+                    <div class="w-full h-full bg-dark-900 rounded-lg flex items-center justify-center">
+                        <i data-lucide="zap" class="w-4 h-4 text-neon-cyan"></i>
+                    </div>
+                </div>
+                <span class="font-bold text-xl tracking-tight text-white">
+                    AutoOps <span class="neon-text">AI</span>
+                </span>
+            </div>
+            
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-400">
+                <a href="#ekosystem" class="hover:text-white transition-colors">Ekosystém</a>
+                <a href="#hodnota" class="hover:text-white transition-colors">Benefity</a>
+                <a href="#bezpecnost" class="hover:text-white transition-colors">Bezpečnosť</a>
+            </div>
+
+            <!-- Status Pill -->
+            <div class="hidden sm:flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-slate-300">
+                <span class="relative flex h-2 w-2">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+                Agent Active • 100% Trust
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-16">
+        <div class="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+            
+            <!-- ĽAVÁ STRANA: Dashboard -->
+            <div class="lg:col-span-5 space-y-6">
+                
+                <!-- Main Metric Card -->
+                <div class="glass-card rounded-[2rem] p-8 relative overflow-hidden neon-border">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-neon-purple/10 rounded-full filter blur-3xl pointer-events-none"></div>
+                    
+                    <h3 class="text-slate-400 text-sm font-medium mb-2">Dnes ušetrené pre e-shop:</h3>
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <div class="text-5xl font-extrabold text-white tracking-tight mb-1">
+                                5 <span class="text-2xl text-slate-400 font-medium">hodín</span>
+                            </div>
+                            <div class="text-4xl font-extrabold neon-text tracking-tight">
+                                38 <span class="text-xl text-slate-400 font-medium text-white">minút</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Glowing Circular Chart -->
+                        <div class="w-28 h-28 relative">
+                            <svg viewBox="0 0 36 36" class="circular-chart text-neon-cyan">
+                                <defs>
+                                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                      <stop offset="0%" stop-color="#00f2fe" />
+                                      <stop offset="100%" stop-color="#b026ff" />
+                                    </linearGradient>
+                                </defs>
+                                <path class="circle-bg"
+                                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                />
+                                <path class="circle"
+                                  stroke-dasharray="75, 100"
+                                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                />
+                            </svg>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <i data-lucide="check" class="w-8 h-8 text-white"></i>
+                            </div>
+                        </div>
+                    </div>
+                        <!-- Live Activity Feed -->
+                <div class="glass-card rounded-[2rem] p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center gap-2">
+                            <div class="w-2 h-2 rounded-full bg-neon-purple animate-pulse"></div>
+                            <h3 class="text-sm font-bold text-white uppercase tracking-wider">Live aktivita</h3>
+                        </div>
+                        <span class="text-xs text-slate-500">Práve teraz</span>
+                    </div>
+
+                    <div class="space-y-4" id="live-activity-feed">
+                        <!-- Budú dynamicky načítané zo Supabase -->
+                        <div class="bg-white/5 rounded-2xl p-4 flex items-center gap-4 hover:bg-white/10 transition-colors animate-pulse">
+                            <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center shrink-0 border border-white/10"></div>
+                            <div class="flex-1 space-y-2">
+                                <div class="h-3 bg-white/10 rounded w-3/4"></div>
+                                <div class="h-2 bg-white/5 rounded w-1/2"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Floating Bot Message -->
+                <div class="flex items-center gap-4 animate-float mt-8 pl-4">
+                    <div class="relative">
+                        <div class="w-14 h-14 rounded-full bg-gradient-to-br from-neon-cyan to-neon-purple p-[2px] shadow-[0_0_30px_rgba(0,242,254,0.3)]">
+                            <div class="w-full h-full bg-dark-900 rounded-full flex items-center justify-center">
+                                <i data-lucide="bot" class="w-7 h-7 text-white"></i>
+                            </div>
+                        </div>
+                        <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 border-2 border-dark-900 rounded-full"></div>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-md border border-white/10 px-5 py-3 rounded-2xl rounded-tl-sm text-sm font-medium shadow-xl">
+                        Pracujem na tvojom<br/>e-shope <span class="neon-text font-bold">práve teraz</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- PRAVÁ STRANA: Interaktívne Demo Chatu -->
+            <div class="lg:col-span-7 relative">
+                <div class="glass-card rounded-[2rem] overflow-hidden flex flex-col h-[750px] shadow-2xl shadow-neon-cyan/5 border border-white/10 neon-border">
+                    <div class="px-6 py-5 border-b border-white/5 bg-dark-800/80 flex justify-between items-center z-20">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 bg-white/5 rounded-xl border border-white/10 flex items-center justify-center">
+                                <i data-lucide="terminal" class="w-5 h-5 text-neon-cyan"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-white text-sm">Vyskúšaj si agenta naživo</h3>
+                                <p class="text-[11px] text-slate-400 flex items-center mt-0.5">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5"></span>
+                                    Pripojené k databáze
+                                </p>
+                            </div>
+                        </div>
+                        <button onclick="resetDemo()" class="text-xs font-bold text-slate-400 hover:text-white transition-colors uppercase tracking-wider flex items-center p-2 rounded-lg hover:bg-white/5">
+                            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5 mr-1.5"></i> Reset
+                        </button>
+                    </div>
+
+                    <div id="chat-messages" class="flex-1 overflow-y-auto p-6 space-y-6 bg-dark-900/50 scroll-smooth"></div>
+
+                    <div id="typing-indicator" class="hidden justify-start px-6 pb-4 bg-transparent absolute bottom-[180px] left-0 w-full z-10">
+                        <div class="bg-dark-700/80 backdrop-blur-md border border-white/5 py-3 px-4 rounded-2xl rounded-bl-sm flex gap-1.5 w-fit">
+                            <div class="w-2 h-2 bg-neon-cyan rounded-full typing-dot"></div>
+                            <div class="w-2 h-2 bg-neon-cyan rounded-full typing-dot"></div>
+                            <div class="w-2 h-2 bg-neon-cyan rounded-full typing-dot"></div>
+                        </div>
+                    </div>
+
+                    <div class="p-6 bg-dark-800/90 backdrop-blur-xl border-t border-white/5 z-20 relative" id="controls-container">
+                        <div id="escalation-success" class="hidden p-5 bg-red-500/10 border border-red-500/30 rounded-2xl items-start gap-4 message-pop">
+                            <div class="bg-red-500/20 p-2 rounded-xl shrink-0">
+                                <i data-lucide="shield-alert" class="w-6 h-6 text-red-400"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-red-400 font-bold text-sm mb-1.5">Záchranná brzda (HITL) aktivovaná</h4>
+                                <p class="text-xs text-slate-300 leading-relaxed font-medium">
+                                    Agent detegoval medicínske/právne riziko. Chat bol okamžite presunutý živému zamestnancovi. AI prestáva komunikovať.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div id="scenario-buttons">
+                            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">
+                                Zvoľte testovací dotaz (Prompt):
+                            </div>
+                            <div class="space-y-3" id="buttons-wrapper"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack / Partners -->
+    <section class="py-16 border-y border-white/5 bg-dark-900/30 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4">
+            <p class="text-center text-[10px] uppercase font-bold tracking-[0.3em] text-slate-500 mb-12">Integrované v enterprise ekosystéme</p>
+            
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-12 md:gap-16 items-center opacity-30 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-700">
+                <div class="flex items-center justify-center gap-3 group cursor-default">
+                    <i data-lucide="shopping-cart" class="w-7 h-7 text-white group-hover:text-neon-cyan transition-colors"></i>
+                    <span class="font-bold text-xl text-white">Shopify</span>
+                </div>
+                <div class="flex items-center justify-center gap-3 group cursor-default">
+                    <i data-lucide="box" class="w-7 h-7 text-white group-hover:text-orange-500 transition-colors"></i>
+                    <span class="font-bold text-xl text-white">Packeta</span>
+                </div>
+                <div class="flex items-center justify-center gap-3 group cursor-default">
+                    <i data-lucide="file-text" class="w-7 h-7 text-white group-hover:text-neon-purple transition-colors"></i>
+                    <span class="font-bold text-xl text-white">SuperFaktúra</span>
+                </div>
+                <div class="flex items-center justify-center gap-3 group cursor-default">
+                    <i data-lucide="database" class="w-7 h-7 text-white group-hover:text-emerald-400 transition-colors"></i>
+                    <span class="font-bold text-xl text-white">Supabase</span>
+                </div>
+                <div class="flex items-center justify-center gap-3 group cursor-default">
+                    <i data-lucide="mail" class="w-7 h-7 text-white group-hover:text-red-400 transition-colors"></i>
+                    <span class="font-bold text-xl text-white">Gmail API</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. Bento Box Grid (Ekosystém schopností) -->
+    <section id="ekosystem" class="max-w-7xl mx-auto px-4 py-24 sm:px-6 lg:px-8 reveal">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-4 tracking-tight">Autonómny Ekosystém</h2>
+            <p class="text-slate-400 max-w-2xl mx-auto">Váš nový "zamestnanec", ktorý nikdy nespí a rozumie vašej firme do hĺbky databázy.</p>
+        </div>
+
+        <div class="bento-grid">
+            <!-- Box 1 (Veľký): SQL Live Chat -->
+            <div class="lg:col-span-2 lg:row-span-2 glass-card rounded-3xl p-8 neon-border flex flex-col justify-between overflow-hidden relative group">
+                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <i data-lucide="database" class="w-32 h-32 text-neon-cyan"></i>
+                </div>
+                <div>
+                    <div class="w-12 h-12 bg-neon-cyan/20 rounded-xl flex items-center justify-center mb-6 border border-neon-cyan/30">
+                        <i data-lucide="search" class="w-6 h-6 text-neon-cyan"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-3 tracking-tight">SQL Live Chat</h3>
+                    <p class="text-slate-400 mb-6 leading-relaxed">Agent sa pripája priamo na vaše SQL dáta. Odpovedá na stavy zásob, ceny a parametre produktov v milisekundách.</p>
+                </div>
+                <div class="bg-black/40 rounded-xl p-4 font-mono text-[11px] text-emerald-400 border border-white/5 relative z-10">
+                    <div class="flex gap-2 mb-2">
+                        <span class="text-slate-500">QUERY:</span>
+                        <span>SELECT price, stock FROM products WHERE id='MG-100'</span>
+                    </div>
+                    <div class="flex gap-2 animate-pulse">
+                        <span class="text-slate-500">RESULT:</span>
+                        <span>{ price: 19.90, in_stock: 145 }</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Box 2: E-mail Triage -->
+            <div class="lg:col-span-2 glass-card rounded-3xl p-8 neon-border flex flex-col justify-between relative group overflow-hidden">
+                <div class="absolute -right-4 -bottom-4 opacity-5">
+                    <i data-lucide="mail" class="w-40 h-40 text-neon-purple"></i>
+                </div>
+                <div class="flex items-start justify-between">
+                    <div>
+                        <div class="w-10 h-10 bg-neon-purple/20 rounded-lg flex items-center justify-center mb-4 border border-neon-purple/30">
+                            <i data-lucide="inbox" class="w-5 h-5 text-neon-purple"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2 tracking-tight">E-mail Triage</h3>
+                    </div>
+                    <div class="px-2 py-1 bg-white/5 rounded text-[10px] font-bold text-slate-400 border border-white/10 uppercase tracking-wider">Gmail API</div>
+                </div>
+                <p class="text-sm text-slate-400 leading-relaxed">Triedenie prichádzajúcich dopytov a automatické generovanie konceptov odpovedí na základe kontextu firmy.</p>
+            </div>
+
+            <!-- Box 3: SuperFaktúra -->
+            <div class="glass-card rounded-3xl p-8 neon-border flex flex-col justify-between group overflow-hidden">
+                <div class="w-10 h-10 bg-emerald-500/20 rounded-lg flex items-center justify-center mb-4 border border-emerald-500/30">
+                    <i data-lucide="file-check" class="w-5 h-5 text-emerald-400"></i>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-white mb-2 tracking-tight">Fakturácia</h3>
+                    <p class="text-xs text-slate-400">Integrácia na SuperFaktúru. Automatické generovanie PDF po zaplatení objednávky.</p>
+                </div>
+            </div>
+
+            <!-- Box 4: Packeta -->
+            <div class="glass-card rounded-3xl p-8 neon-border flex flex-col justify-between group overflow-hidden">
+                <div class="w-10 h-10 bg-orange-500/20 rounded-lg flex items-center justify-center mb-4 border border-orange-500/30">
+                    <i data-lucide="truck" class="w-5 h-5 text-orange-400"></i>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-white mb-2 tracking-tight">Logistika</h3>
+                    <p class="text-xs text-slate-400">Sledovanie zásielok v reálnom čase cez API Packety a GLS. Proaktívne informovanie zákazníka.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW SECTION: How it works -->
+    <section class="max-w-7xl mx-auto px-4 py-24 sm:px-6 lg:px-8 reveal">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-extrabold text-white mb-4">Ako to funguje?</h2>
+            <p class="text-slate-400">Od napojenia po plnú autonómiu v 3 krokoch.</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-12 relative">
+            <div class="absolute top-1/2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent -z-10 hidden md:block"></div>
+            
+            <div class="flex flex-col items-center text-center">
+                <div class="w-16 h-16 rounded-2xl bg-dark-800 border border-white/10 flex items-center justify-center mb-6 relative">
+                    <div class="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-neon-cyan text-dark-900 flex items-center justify-center font-bold text-sm shadow-lg shadow-neon-cyan/20">1</div>
+                    <i data-lucide="database-zap" class="w-8 h-8 text-white"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-3">Napojenie</h3>
+                <p class="text-sm text-slate-400">Pripojíme váš SQL, e-mail a API kľúče. Bezpečne a rýchlo.</p>
+            </div>
+
+            <div class="flex flex-col items-center text-center">
+                <div class="w-16 h-16 rounded-2xl bg-dark-800 border border-white/10 flex items-center justify-center mb-6 relative">
+                    <div class="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-neon-purple text-dark-900 flex items-center justify-center font-bold text-sm shadow-lg shadow-neon-purple/20">2</div>
+                    <i data-lucide="brain" class="w-8 h-8 text-white"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-3">Tréning</h3>
+                <p class="text-sm text-slate-400">Neuron AI sa naučí vaše firemné pravidlá a štýl komunikácie.</p>
+            </div>
+
+            <div class="flex flex-col items-center text-center">
+                <div class="w-16 h-16 rounded-2xl bg-dark-800 border border-white/10 flex items-center justify-center mb-6 relative">
+                    <div class="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-emerald-500 text-dark-900 flex items-center justify-center font-bold text-sm shadow-lg shadow-emerald-500/20">3</div>
+                    <i data-lucide="rocket" class="w-8 h-8 text-white"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-3">Autonómia</h3>
+                <p class="text-sm text-slate-400">Agent začína pracovať 24/7. Vy už len sledujete štatistiky úspory.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Hodnota pre všetkých -->
+    <section id="hodnota" class="w-full bg-white/[0.02] py-24 border-y border-white/5 reveal">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-neon-cyan text-xs font-bold uppercase tracking-widest px-3 py-1 bg-neon-cyan/10 rounded-full mb-4 inline-block">Ekosystém Hodnoty</span>
+                <h2 class="text-4xl md:text-5xl font-extrabold text-white">Jeden agent. Pre celý tím.</h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Pre E-shopy -->
+                <div class="glass-card p-8 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-transform duration-500">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-neon-cyan/5 rounded-full blur-2xl"></div>
+                    <div class="text-neon-cyan mb-6"><i data-lucide="trending-up" class="w-10 h-10"></i></div>
+                    <h3 class="text-2xl font-bold text-white mb-6">Pre E-shopy</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3 text-slate-300 text-sm">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-neon-cyan shrink-0"></i>
+                            <span>Zníženie mzdových nákladov o 60%</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-slate-300 text-sm">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-neon-cyan shrink-0"></i>
+                            <span>24/7 odozva do 5 sekúnd</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-slate-300 text-sm">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-neon-cyan shrink-0"></i>
+                            <span>Záchrana opustených košíkov cez AI retargeting</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Pre Operátorov -->
+                <div class="glass-card p-8 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-transform duration-500 border-neon-purple/20">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-neon-purple/5 rounded-full blur-2xl"></div>
+                    <div class="text-neon-purple mb-6"><i data-lucide="users" class="w-10 h-10"></i></div>
+                    <h3 class="text-2xl font-bold text-white mb-6">Pre Operátorov</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3 text-slate-300 text-sm">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-neon-purple shrink-0"></i>
+                            <span>Koniec rutinným otázkam "Kde je môj balík?"</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-slate-300 text-sm">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-neon-purple shrink-0"></i>
+                            <span>Práca iba na expertných eskaláciách</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-slate-300 text-sm">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-neon-purple shrink-0"></i>
+                            <span>Budovanie vzťahov, nie vypĺňanie formulárov</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Pre Investorov -->
+                <div class="glass-card p-8 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-transform duration-500 border-white/10">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl"></div>
+                    <div class="text-white mb-6"><i data-lucide="landmark" class="w-10 h-10"></i></div>
+                    <h3 class="text-2xl font-bold text-white mb-6">Pre Investorov</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3 text-slate-300 text-sm">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-slate-400 shrink-0"></i>
+                            <span>Extrémna škálovateľnosť bez navyšovania headcountu</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-slate-300 text-sm">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-slate-400 shrink-0"></i>
+                            <span>Nízke prevádzkové náklady (lokálny model / SQLite)</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-slate-300 text-sm">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-slate-400 shrink-0"></i>
+                            <span>EU AI Act compliance a GDPR by Design</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW SECTION: Pricing -->
+    <section id="pricing" class="max-w-7xl mx-auto px-4 py-24 sm:px-6 lg:px-8 reveal">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-extrabold text-white mb-4">Transparentné ceny</h2>
+            <p class="text-slate-400">Investícia, ktorá sa vám vráti už v prvom mesiaci.</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+            <!-- Starter -->
+            <div class="glass-card p-8 rounded-3xl border border-white/5 flex flex-col group hover:border-neon-cyan/30 transition-colors">
+                <div class="mb-8">
+                    <h3 class="text-xl font-bold text-white mb-2">Starter</h3>
+                    <p class="text-slate-500 text-sm">Pre začínajúce e-shopy.</p>
+                </div>
+                <div class="mb-8">
+                    <span class="text-4xl font-extrabold text-white">49€</span>
+                    <span class="text-slate-500 text-sm">/ mesiac</span>
+                </div>
+                <ul class="space-y-4 mb-10 flex-1">
+                    <li class="flex items-center gap-3 text-sm text-slate-300">
+                        <i data-lucide="check" class="w-4 h-4 text-neon-cyan"></i> 500 konverzácií / mesiac
+                    </li>
+                    <li class="flex items-center gap-3 text-sm text-slate-300">
+                        <i data-lucide="check" class="w-4 h-4 text-neon-cyan"></i> SQL integrácia (Základ)
+                    </li>
+                    <li class="flex items-center gap-3 text-sm text-slate-300">
+                        <i data-lucide="check" class="w-4 h-4 text-neon-cyan"></i> Email podpora
+                    </li>
+                </ul>
+                <button class="w-full py-4 bg-white/5 border border-white/10 rounded-xl text-white font-bold hover:bg-white/10 transition-colors">Vybrať Starter</button>
+            </div>
+
+            <!-- Business -->
+            <div class="glass-card p-8 rounded-3xl border-2 border-neon-purple/50 flex flex-col relative transform scale-105 shadow-2xl shadow-neon-purple/10">
+                <div class="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-neon-purple rounded-full text-dark-900 text-[10px] font-black uppercase tracking-widest">Najobľúbenejšie</div>
+                <div class="mb-8">
+                    <h3 class="text-xl font-bold text-white mb-2">Business</h3>
+                    <p class="text-slate-500 text-sm">Pre rastúce firmy.</p>
+                </div>
+                <div class="mb-8">
+                    <span class="text-4xl font-extrabold text-white">149€</span>
+                    <span class="text-slate-500 text-sm">/ mesiac</span>
+                </div>
+                <ul class="space-y-4 mb-10 flex-1">
+                    <li class="flex items-center gap-3 text-sm text-slate-300">
+                        <i data-lucide="check" class="w-4 h-4 text-neon-purple"></i> Neobmedzené konverzácie
+                    </li>
+                    <li class="flex items-center gap-3 text-sm text-slate-300">
+                        <i data-lucide="check" class="w-4 h-4 text-neon-purple"></i> Plná API automatizácia
+                    </li>
+                    <li class="flex items-center gap-3 text-sm text-slate-300">
+                        <i data-lucide="check" class="w-4 h-4 text-neon-purple"></i> Packeta + SuperFaktúra
+                    </li>
+                    <li class="flex items-center gap-3 text-sm text-slate-300">
+                        <i data-lucide="check" class="w-4 h-4 text-neon-purple"></i> Prioritná podpora
+                    </li>
+                </ul>
+                <button class="w-full py-4 bg-gradient-to-r from-neon-purple to-indigo-600 rounded-xl text-white font-bold shadow-lg shadow-neon-purple/20">Vyskúšať Business</button>
+            </div>
+
+            <!-- Enterprise -->
+            <div class="glass-card p-8 rounded-3xl border border-white/5 flex flex-col group hover:border-white/20 transition-colors">
+                <div class="mb-8">
+                    <h3 class="text-xl font-bold text-white mb-2">Enterprise</h3>
+                    <p class="text-slate-500 text-sm">Individuálne riešenia.</p>
+                </div>
+                <div class="mb-8">
+                    <span class="text-4xl font-extrabold text-white">Custom</span>
+                </div>
+                <ul class="space-y-4 mb-10 flex-1">
+                    <li class="flex items-center gap-3 text-sm text-slate-300">
+                        <i data-lucide="check" class="w-4 h-4 text-slate-400"></i> On-premise inštalácia
+                    </li>
+                    <li class="flex items-center gap-3 text-sm text-slate-300">
+                        <i data-lucide="check" class="w-4 h-4 text-slate-400"></i> SLA garantovaná odozva
+                    </li>
+                    <li class="flex items-center gap-3 text-sm text-slate-300">
+                        <i data-lucide="check" class="w-4 h-4 text-slate-400"></i> Custom LLM tréning
+                    </li>
+                </ul>
+                <button class="w-full py-4 bg-white/5 border border-white/10 rounded-xl text-white font-bold hover:bg-white/10 transition-colors">Kontaktovať nás</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Detail Bezpečnosti -->
+    <section id="bezpecnost" class="max-w-7xl mx-auto px-4 py-24 sm:px-6 lg:px-8 reveal">
+        <div class="glass-card rounded-[3rem] p-12 neon-border overflow-hidden relative">
+            <div class="absolute -left-20 top-0 w-80 h-80 bg-red-500/10 rounded-full blur-[100px]"></div>
+            
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div>
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="px-4 py-1.5 bg-emerald-500/10 border border-emerald-500/30 rounded-full text-emerald-400 text-xs font-bold uppercase tracking-wider">
+                            Verified Secure
+                        </div>
+                        <div class="px-4 py-1.5 bg-blue-500/10 border border-blue-500/30 rounded-full text-blue-400 text-xs font-bold uppercase tracking-wider">
+                            GDPR Compliant
+                        </div>
+                    </div>
+                    <h2 class="text-4xl font-extrabold text-white mb-6 leading-tight tracking-tight">100% Bezpečné.<br/><span class="text-red-400">Bez rizika.</span></h2>
+                    <p class="text-slate-400 text-lg mb-8 leading-relaxed">
+                        Naša architektúra <strong>Human-in-the-Loop (HITL)</strong> zabezpečuje, že AI nikdy neurobí fatálnu chybu. Ak agent deteguje medicínske, právne alebo vysokofinančné riziko, okamžite aktivuje záchrannú brzdu.
+                    </p>
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center shrink-0 border border-white/10">
+                                <i data-lucide="shield-check" class="w-5 h-5 text-emerald-400"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold mb-1">Šifrovanie dát</h4>
+                                <p class="text-sm text-slate-500">Všetky prenosy prebiehajú cez šifrovaný TLS tunel a dáta sú anonymizované pred odoslaním do AI modelu.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Emergency Brake Visual -->
+                <div class="relative">
+                    <div class="bg-dark-800 rounded-[2rem] p-8 border border-white/5 relative z-10">
+                        <div class="flex justify-between items-center mb-10">
+                            <div class="text-xs font-bold text-slate-500 uppercase tracking-widest">Bezpečnostný Modul v2.4</div>
+                            <div class="flex gap-2">
+                                <div class="w-2 h-2 rounded-full bg-emerald-500"></div>
+                                <div class="w-2 h-2 rounded-full bg-emerald-500"></div>
+                                <div class="w-2 h-2 rounded-full bg-emerald-500"></div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col items-center py-10">
+                            <div class="relative mb-8">
+                                <div class="absolute inset-0 bg-red-500/20 rounded-full blur-2xl animate-pulse"></div>
+                                <div class="w-24 h-24 bg-red-500/20 rounded-full border-4 border-red-500/30 flex items-center justify-center animate-pulse-slow">
+                                    <i data-lucide="octagon" class="w-12 h-12 text-red-500"></i>
+                                </div>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-2 uppercase tracking-tighter">Záchranná Brzda</h3>
+                            <p class="text-center text-sm text-red-400 font-bold mb-6">STANDBY MODE: MONITORING RISK</p>
+                            <div class="w-full h-2 bg-white/5 rounded-full overflow-hidden mb-4">
+                                <div class="h-full bg-gradient-to-r from-emerald-500 via-amber-500 to-red-500 w-[15%]"></div>
+                            </div>
+                            <div class="text-[10px] text-slate-500 font-medium">AKTIVÁCIA PRI DETEKCII: LIEKY / PRÁVO / HNEV</div>
+                        </div>
+                    </div>
+                    <!-- Background Glow -->
+                    <div class="absolute inset-0 bg-gradient-to-br from-neon-purple/20 to-transparent rounded-[2rem] blur-2xl -z-10"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW SECTION: FAQ -->
+    <section id="faq" class="max-w-3xl mx-auto px-4 py-24 reveal">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl font-extrabold text-white mb-4">Časté otázky</h2>
+        </div>
+
+        <div class="space-y-4">
+            <div class="glass-card rounded-2xl p-6 border border-white/5">
+                <h4 class="font-bold text-white mb-2 flex justify-between items-center cursor-pointer group">
+                    Ako dlho trvá implementácia?
+                    <i data-lucide="chevron-down" class="w-4 h-4 text-slate-500 group-hover:text-white transition-colors"></i>
+                </h4>
+                <p class="text-sm text-slate-400">Štandardné napojenie na SQL a e-mail trvá menej ako 24 hodín. Váš agent môže začať komunikovať okamžite po základnom tréningu.</p>
+            </div>
+            <div class="glass-card rounded-2xl p-6 border border-white/5">
+                <h4 class="font-bold text-white mb-2 flex justify-between items-center cursor-pointer group">
+                    Sú moje dáta v bezpečí?
+                    <i data-lucide="chevron-down" class="w-4 h-4 text-slate-500 group-hover:text-white transition-colors"></i>
+                </h4>
+                <p class="text-sm text-slate-400">Áno. Používame end-to-end šifrovanie a dáta nikdy nepoužívame na tréning verejných modelov. Všetko prebieha v uzavretom firemnom prostredí.</p>
+            </div>
+            <div class="glass-card rounded-2xl p-6 border border-white/5">
+                <h4 class="font-bold text-white mb-2 flex justify-between items-center cursor-pointer group">
+                    Čo ak AI nevie odpovedať?
+                    <i data-lucide="chevron-down" class="w-4 h-4 text-slate-500 group-hover:text-white transition-colors"></i>
+                </h4>
+                <p class="text-sm text-slate-400">V takom prípade systém automaticky eskaluje konverzáciu na živého operátora a AI prestane zasahovať, kým človek neprevezme kontrolu.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Final Call to Action -->
+    <section class="max-w-7xl mx-auto px-4 py-24 sm:px-6 lg:px-8 text-center reveal">
+        <div class="glass-card rounded-[3rem] py-20 px-8 relative overflow-hidden neon-border">
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,242,254,0.1)_0%,transparent_70%)]"></div>
+            
+            <h2 class="text-4xl md:text-6xl font-extrabold text-white mb-8 leading-tight tracking-tight">
+                Zastavte únik konverzií a prejdite na <span class="neon-text">autonómnu podporu</span>.
+            </h2>
+            <p class="text-slate-400 text-lg mb-12 max-w-2xl mx-auto">
+                Implementácia do 24 hodín. Žiadne mesačné poplatky za agentov, len efektivita a rast vášho e-shopu.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row justify-center gap-6 relative z-10">
+                <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="px-10 py-5 bg-gradient-to-r from-neon-cyan to-neon-blue rounded-2xl text-dark-900 font-extrabold text-lg hover:shadow-[0_0_30px_rgba(0,242,254,0.4)] transition-all duration-300">
+                    Vyskúšať Live Demo
+                </button>
+                <a href="mailto:integracia@autoops.ai" class="px-10 py-5 bg-white/5 border border-white/10 rounded-2xl text-white font-extrabold text-lg hover:bg-white/10 transition-all duration-300">
+                    Vyžiadať integráciu
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/5 py-12 bg-dark-900/80">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="flex items-center gap-3">
+                <div class="w-6 h-6 rounded bg-neon-cyan/20 flex items-center justify-center">
+                    <i data-lucide="zap" class="w-3 h-3 text-neon-cyan"></i>
+                </div>
+                <span class="font-bold text-slate-300">AutoOps AI © 2026</span>
+            </div>
+            <div class="flex gap-8 text-sm text-slate-500">
+                <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                <a href="#" class="hover:text-white transition-colors">Security Audit</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Waitlist Modal -->
+    <div id="waitlist-modal" class="fixed inset-0 z-[60] hidden">
+        <div class="absolute inset-0 bg-dark-900/80 backdrop-blur-sm" onclick="closeWaitlist()"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md px-4">
+            <div class="glass-card rounded-3xl p-8 neon-border relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-neon-cyan/10 rounded-full filter blur-2xl pointer-events-none"></div>
+                
+                <button onclick="closeWaitlist()" class="absolute top-4 right-4 text-slate-500 hover:text-white transition-colors">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+
+                <div class="text-center space-y-4">
+                    <div class="w-16 h-16 bg-gradient-to-br from-neon-cyan to-neon-purple p-[1px] rounded-2xl mx-auto mb-6">
+                        <div class="w-full h-full bg-dark-900 rounded-2xl flex items-center justify-center">
+                            <i data-lucide="rocket" class="w-8 h-8 text-neon-cyan"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white">Vstúpte do AutoOps AI</h3>
+                    <p class="text-slate-400 text-sm">Aktuálne prijímame limitovaný počet e-shopov do beta testovania. Zanechajte nám e-mail a my sa vám ozveme.</p>
+                </div>
+
+                <form id="waitlist-form" class="mt-8 space-y-4">
+                    <div class="relative">
+                        <i data-lucide="mail" class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500"></i>
+                        <input type="email" id="waitlist-email" required placeholder="Váš e-mail" 
+                               class="w-full bg-white/5 border border-white/10 rounded-xl py-4 pl-12 pr-4 text-white placeholder:text-slate-600 focus:outline-none focus:border-neon-cyan/50 transition-colors">
+                    </div>
+                    <button type="submit" id="waitlist-submit" class="w-full py-4 bg-gradient-to-r from-neon-cyan to-neon-blue rounded-xl text-dark-900 font-extrabold hover:shadow-[0_0_20px_rgba(0,242,254,0.3)] transition-all">
+                        Odoslať požiadavku
+                    </button>
+                </form>
+
+                <div id="waitlist-success" class="hidden mt-8 text-center space-y-4 animate-message-pop">
+                    <div class="w-12 h-12 bg-emerald-500/20 border border-emerald-500/30 rounded-full flex items-center justify-center mx-auto">
+                        <i data-lucide="check" class="w-6 h-6 text-emerald-400"></i>
+                    </div>
+                    <p class="text-emerald-400 font-bold">Ďakujeme! Ste v poradovníku.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Logika (Zachovaná a rozšírená o plynulé prechody) -->
+    <script>
+        // Supabase Inicializácia
+        const supabaseUrl = 'https://fxxsyzfakknsgtjqcsxg.supabase.co';
+        const supabaseKey = 'sb_publishable_4XRsYiVygNn5Q-TYTeyVKQ_QXb2LMZr';
+        const supabase = supabasejs.createClient(supabaseUrl, supabaseKey);
+
+        let escalated = false;
+        let isTyping = false;
+        let currentConversationId = null;
+
+        const defaultMessages = [
+            { role: 'ai', text: 'Ahoj! Ja som tvoj AutoOps asistent. Vyber si jednu z ukážok a sleduj ma v akcii:', initial: true }
+        ];
+        let messages = [];
+
+        const scenarios = [
+            {
+                label: "SQL Dopyt: Ceny a Sklad",
+                query: "Máte skladom Magnesium Complex a koľko stojí?",
+                response: "Pripájam sa do databázy... <br/><br/><strong>Magnesium Complex (100 tabliet)</strong> je aktuálne skladom (145 ks). Cena je 19.90 €. <br/>Želáte si ho pridať do košíka?",
+                isEscalation: false,
+                icon: 'database',
+                color: 'cyan'
+            },
+            {
+                label: "Logistika: Kde je balík?",
+                query: "Kde je objednávka #8492 a pošlite mi k nej faktúru.",
+                response: "Volám API Packety... Objednávka #8492 je v preprave (očakávané doručenie zajtra). <br/><br/>Volám API SuperFaktúry... Faktúra bola vygenerovaná a odoslaná na váš e-mail.",
+                isEscalation: false,
+                icon: 'truck',
+                color: 'purple'
+            },
+            {
+                label: "Eskalácia: Medicínske riziko",
+                query: "Mám predpísaný Warfarín. Môžem k tomu brať vaše Ginko?",
+                response: "Zistil som požiadavku na interakciu liekov na predpis. Z bezpečnostných dôvodov odovzdávam túto konverzáciu priamo nášmu farmaceutovi. Čakajte prosím na spojenie so živého operátorom.",
+                isEscalation: true,
+                icon: 'shield-alert',
+                color: 'red'
+            }
+        ];
+
+        const chatMessagesEl = document.getElementById('chat-messages');
+        const typingIndicator = document.getElementById('typing-indicator');
+        const escalationSuccessEl = document.getElementById('escalation-success');
+        const scenarioButtonsEl = document.getElementById('scenario-buttons');
+        const buttonsWrapper = document.getElementById('buttons-wrapper');
+        const liveActivityFeed = document.getElementById('live-activity-feed');
+
+        async function createConversation() {
+            if (currentConversationId) return currentConversationId;
+            const { data, error } = await supabase
+                .from('conversations')
+                .insert([{ customer_email: 'test@demo.sk', status: 'active' }])
+                .select();
+            if (error) console.error('Error creating conversation:', error);
+            currentConversationId = data[0].id;
+            return currentConversationId;
+        }
+
+        async function saveMessage(role, content) {
+            try {
+                if (!currentConversationId) await createConversation();
+                const { error } = await supabase
+                    .from('messages')
+                    .insert([{ conversation_id: currentConversationId, role: role, content: content }]);
+                if (error) console.error('Error saving message:', error);
+            } catch (e) {
+                console.error('Supabase save failed:', e);
+            }
+        }
+
+        async function saveEscalation(reason) {
+            if (!currentConversationId) return;
+            const { error } = await supabase
+                .from('escalations')
+                .insert([{ conversation_id: currentConversationId, reason: reason, priority: 'high' }]);
+            if (error) console.error('Error saving escalation:', error);
+            
+            await supabase
+                .from('conversations')
+                .update({ status: 'escalated' })
+                .eq('id', currentConversationId);
+        }
+
+        async function fetchLiveActivity() {
+            const { data, error } = await supabase
+                .from('messages')
+                .select('role, content, created_at')
+                .order('created_at', { ascending: false })
+                .limit(4);
+            
+            if (error || !data) return;
+
+            liveActivityFeed.innerHTML = '';
+            data.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "bg-white/5 rounded-2xl p-4 flex items-center gap-4 hover:bg-white/10 transition-colors animate-message-pop";
+                
+                let icon = 'message-square';
+                let color = 'cyan';
+                let text = item.content.replace(/<[^>]*>/g, '').substring(0, 40) + '...';
+
+                if(item.role === 'assistant') { icon = 'bot'; color = 'purple'; }
+                
+                card.innerHTML = `
+                    <div class="w-10 h-10 rounded-xl bg-neon-${color}/20 flex items-center justify-center shrink-0 border border-neon-${color}/30">
+                        <i data-lucide="${icon}" class="w-5 h-5 text-neon-${color}"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="text-sm font-bold text-white">${item.role === 'user' ? 'Užívateľ sa pýta' : 'Agent odpovedá'}</h4>
+                        <p class="text-xs text-slate-400">${text}</p>
+                    </div>
+                `;
+                liveActivityFeed.appendChild(card);
+            });
+            lucide.createIcons();
+        }
+
+        function renderButtons() {
+            buttonsWrapper.innerHTML = '';
+            scenarios.forEach((scenario) => {
+                const btn = document.createElement('button');
+                
+                let gradientHover = 'hover:bg-white/10 hover:border-white/20';
+                let iconColor = 'text-slate-400';
+                
+                if(scenario.color === 'cyan') { gradientHover = 'hover:border-neon-cyan/50 hover:shadow-[0_0_15px_rgba(0,242,254,0.2)]'; iconColor = 'text-neon-cyan'; }
+                if(scenario.color === 'purple') { gradientHover = 'hover:border-neon-purple/50 hover:shadow-[0_0_15px_rgba(176,38,255,0.2)]'; iconColor = 'text-neon-purple'; }
+                if(scenario.color === 'red') { gradientHover = 'hover:border-red-500/50 hover:shadow-[0_0_15px_rgba(239,68,68,0.2)]'; iconColor = 'text-red-400'; }
+
+                btn.className = `w-full text-left px-5 py-3.5 bg-dark-700/50 border border-white/5 rounded-xl text-sm text-slate-200 font-medium transition-all duration-300 flex items-center justify-between disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer ${gradientHover} group`;
+                
+                btn.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <div class="bg-dark-900 p-2 rounded-lg border border-white/5 group-hover:border-white/10 transition-colors">
+                            <i data-lucide="${scenario.icon}" class="w-4 h-4 ${iconColor}"></i>
+                        </div>
+                        ${scenario.label}
+                    </div>
+                    <i data-lucide="terminal-square" class="w-4 h-4 text-slate-500 group-hover:text-white transition-colors"></i>
+                `;
+                btn.onclick = () => simulateChat(scenario);
+                buttonsWrapper.appendChild(btn);
+            });
+            lucide.createIcons();
+        }
+
+        function renderChat() {
+            chatMessagesEl.innerHTML = '';
+
+            messages.forEach((msg) => {
+                const wrapperDiv = document.createElement('div');
+                const animationClass = msg.initial ? 'opacity-100' : 'message-pop';
+                wrapperDiv.className = `flex ${animationClass} ${msg.role === 'user' ? 'justify-end' : 'justify-start'} w-full`;
+                
+                let innerClass = "max-w-[85%] p-4 rounded-2xl text-sm leading-relaxed relative ";
+                let headerHTML = "";
+
+                if (msg.role === 'user') {
+                    innerClass += "bg-white/10 border border-white/10 text-white rounded-br-sm";
+                    headerHTML = `<div class="text-[10px] uppercase font-bold text-slate-400 mb-2 flex items-center"><i data-lucide="user" class="w-3 h-3 mr-1.5"></i> Vy (Test)</div>`;
+                } else if (msg.role === 'ai' && !msg.isEscalation) {
+                    innerClass += "bg-dark-700 border border-white/5 text-slate-200 rounded-bl-sm shadow-lg shadow-black/50";
+                    headerHTML = `<div class="text-[10px] uppercase font-bold text-neon-cyan mb-2 flex items-center"><i data-lucide="bot" class="w-3 h-3 mr-1.5"></i> AutoOps Asistent</div>`;
+                } else if (msg.isEscalation) {
+                    innerClass += "bg-red-500/10 border border-red-500/30 text-red-100 rounded-bl-sm";
+                    headerHTML = `<div class="text-[10px] uppercase font-bold text-red-400 mb-2 flex items-center"><i data-lucide="shield-alert" class="w-3 h-3 mr-1.5"></i> Systémový Zásah</div>`;
+                }
+
+                wrapperDiv.innerHTML = `
+                    <div class="${innerClass}">
+                        ${headerHTML}
+                        <div class="opacity-90 font-medium">${msg.text}</div>
+                    </div>
+                `;
+                chatMessagesEl.appendChild(wrapperDiv);
+            });
+            
+            lucide.createIcons();
+            scrollToBottom();
+        }
+
+        async function simulateChat(scenario) {
+            if (escalated || isTyping) return;
+            messages.forEach(m => m.initial = false);
+
+            messages.push({ role: 'user', text: scenario.query });
+            renderChat();
+            
+            // Supabase: Ulož správu od užívateľa
+            saveMessage('user', scenario.query);
+
+            isTyping = true;
+            typingIndicator.style.display = 'flex';
+            chatMessagesEl.style.paddingBottom = "5rem"; 
+
+            const buttons = buttonsWrapper.querySelectorAll('button');
+            buttons.forEach(b => b.disabled = true);
+            scrollToBottom();
+
+            const typingDuration = Math.floor(Math.random() * 800) + 1200;
+
+            setTimeout(async () => {
+                isTyping = false;
+                typingIndicator.style.display = 'none';
+                chatMessagesEl.style.paddingBottom = "1.5rem";
+                
+                messages.push({ role: 'ai', text: scenario.response, isEscalation: scenario.isEscalation });
+                
+                // Supabase: Ulož správu od AI
+                saveMessage('assistant', scenario.response);
+
+                if (scenario.isEscalation) {
+                    escalated = true;
+                    scenarioButtonsEl.classList.add('hidden');
+                    escalationSuccessEl.classList.remove('hidden');
+                    // Supabase: Ulož eskaláciu
+                    saveEscalation(scenario.query);
+                } else {
+                    buttons.forEach(b => b.disabled = false);
+                }
+                
+                renderChat();
+                fetchLiveActivity(); // Obnov live feed
+            }, typingDuration);
+        }
+
+        window.resetDemo = function() {
+            messages = [...defaultMessages];
+            escalated = false;
+            isTyping = false;
+            currentConversationId = null; // Nová session
+            
+            typingIndicator.style.display = 'none';
+            chatMessagesEl.style.paddingBottom = "1.5rem";
+            
+            scenarioButtonsEl.classList.remove('hidden');
+            escalationSuccessEl.classList.add('hidden');
+            
+            const buttons = buttonsWrapper.querySelectorAll('button');
+            buttons.forEach(b => b.disabled = false);
+
+            renderChat();
+        }
+
+        function scrollToBottom() {
+            setTimeout(() => {
+                chatMessagesEl.scrollTo({ top: chatMessagesEl.scrollHeight, behavior: 'smooth' });
+            }, 50);
+        }
+
+        // Reveal Animation Observer
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        async function trackEvent(name, metadata = {}) {
+            try {
+                await supabase
+                    .from('analytics')
+                    .insert([{ event_name: name, metadata: metadata }]);
+            } catch (e) {
+                console.error('Tracking failed:', e);
+            }
+        }
+
+        window.openWaitlist = function(source = 'unknown') {
+            document.getElementById('waitlist-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            trackEvent('waitlist_modal_opened', { source: source });
+        }
+
+        window.closeWaitlist = function() {
+            document.getElementById('waitlist-modal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            document.getElementById('waitlist-form').classList.remove('hidden');
+            document.getElementById('waitlist-success').classList.add('hidden');
+        }
+
+        document.getElementById('waitlist-form')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('waitlist-email').value;
+            const submitBtn = document.getElementById('waitlist-submit');
+            
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i data-lucide="loader-2" class="w-5 h-5 animate-spin mx-auto"></i>';
+            lucide.createIcons();
+
+            const { error } = await supabase
+                .from('leads')
+                .insert([{ email: email, source: 'landing_page_waitlist' }]);
+
+            if (error && error.code !== '23505') { // 23505 is unique violation (already in list)
+                alert('Chyba: ' + error.message);
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Odoslať požiadavku';
+            } else {
+                trackEvent('lead_captured', { email: email });
+                document.getElementById('waitlist-form').classList.add('hidden');
+                document.getElementById('waitlist-success').classList.remove('hidden');
+                setTimeout(closeWaitlist, 3000);
+            }
+        });
+
+        // Pridanie event listenerov na všetky CTA tlačidlá
+        function setupCTAs() {
+            document.querySelectorAll('button').forEach(btn => {
+                const text = btn.innerText.toLowerCase();
+                if (text.includes('vyskúšať') || text.includes('začať') || text.includes('demo')) {
+                    btn.addEventListener('click', () => {
+                        const btnText = btn.innerText;
+                        trackEvent('cta_clicked', { button_text: btnText });
+                        if (!btn.onclick && !btn.closest('#chat-container')) {
+                            openWaitlist(btnText);
+                        }
+                    });
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderButtons();
+            fetchLiveActivity();
+            setupCTAs();
+            
+            setInterval(fetchLiveActivity, 10000);
+
+            // PWA Service Worker Registration
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('/sw.js').catch(err => {
+                        console.log('SW registration failed: ', err);
+                    });
+                });
+            }
+
+            document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+            setTimeout(() => {
+                messages = [...defaultMessages];
+                renderChat();
+            }, 100);
+        });
+    </script>
+</body>
+</html>
