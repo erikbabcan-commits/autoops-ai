@@ -111,4 +111,20 @@ export default defineConfig({
     port: 4180,
     strictPort: true,
   },
+  build: {
+    chunkSizeWarningLimit: 1000,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor-react': ['react', 'react-dom', 'react-router'],
+          'vendor-supabase': ['@supabase/supabase-js'],
+          'vendor-icons': ['lucide-react'],
+          'vendor-sentry': ['@sentry/react', '@sentry/browser'],
+          'vendor-charts': ['recharts'],
+          'vendor-ui': ['framer-motion', '@radix-ui/react-avatar', '@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu', '@radix-ui/react-progress'],
+          'vendor-utils': ['zod', '@tanstack/react-query', 'date-fns', 'i18next'],
+        },
+      },
+    },
+  },
 })
